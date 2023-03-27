@@ -22,6 +22,13 @@ export function Post() {
                     <a href=''>#ignite</a>
                 </p>
             </div>
+            <form className={styles.commentForm}>
+                <strong>Deixe seu comentário</strong>
+                <textarea />
+                <footer>
+                    <button type='submit'>Publicar</button>
+                </footer>
+            </form>
         </article>
     )
 }
