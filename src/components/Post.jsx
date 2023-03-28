@@ -1,3 +1,7 @@
+// Components
+import { Comment } from './Comment';
+
+// Styles
 import styles from './Post.module.css';
 
 export function Post() {
@@ -23,12 +27,17 @@ export function Post() {
                 </p>
             </div>
             <form className={styles.commentForm}>
-                <strong>Deixe seu comentário</strong>
+                <strong>Deixe seu feedback</strong>
                 <textarea />
                 <footer>
                     <button type='submit'>Publicar</button>
                 </footer>
             </form>
+            <div className={styles.commentList}>
+                <Comment />
+                <Comment />
+                <Comment />
+            </div>
         </article>
     )
 }

@@ -92,7 +92,7 @@
     max-height: 0;
 }
 
-.commentForm:focus-within footer{
+.commentForm:focus-within footer {
     visibility: visible;
     max-height: none;
 }
@@ -110,6 +110,10 @@
     transition: color 0.1s, background-color 0.1s;
 }
 
-.commentForm button:hover{
+.commentForm button:hover {
     background: var(--green-300);
+}
+
+.commentForm commentList {
+    margin-top: 2rem;
 }
