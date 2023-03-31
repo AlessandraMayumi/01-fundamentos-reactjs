@@ -1,3 +1,6 @@
+import { format, formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+
 // Components
 import { Avatar } from './Avatar';
 import { Comment } from './Comment';
@@ -5,28 +8,33 @@ import { Comment } from './Comment';
 // Styles
 import styles from './Post.module.css';
 
+import { CONTENT_TYPE_PARAGRAPH, CONTENT_TYPE_LINK } from '../constants/constants'
 
-export function Post() {
+export function PostItem({ author, content, publishedAt }) {
+    const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", { locale: ptBR });
+    const publishedDateRelative = formatDistanceToNow(publishedAt, { locale: ptBR, addSuffix: true });
+
     return (
         <article className={styles.post}>
             <header>
                 <div className={styles.author}>
                     <Avatar hasBorder src='https://www.github.com/AlessandraMayumi.png' />
                     <div className={styles.authorInfo}>
-                        <strong>Test User</strong>
-                        <span>Web developer</span>
+                        <strong>{author.name}</strong>
+                        <span>{author.role}</span>
                     </div>
                 </div>
-                <time title='11 de Maio às 8:00' dateTime='2022-05-11 08:13:30'>Publicado há 1h</time>
+                <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()} >{publishedDateRelative}</time>
             </header>
             <div className={styles.content}>
-                <p>Fala galera</p>
-                <p>Acabei de subir um projeto</p>
-                <p><a href=''>test.design/project</a></p>
-                <p>
-                    <a href=''>#testproject</a>{'  '}
-                    <a href=''>#ignite</a>
-                </p>
+                {content.map(p => {
+                    if (p.type === CONTENT_TYPE_PARAGRAPH) {
+                        return <p>{p.content}</p>
+                    }
+                    if (p.type === CONTENT_TYPE_LINK) {
+                        return <p><a href="#">{p.content}</a></p>
+                    }
+                })}
             </div>
             <form className={styles.commentForm}>
                 <strong>Deixe seu feedback</strong>
@@ -41,5 +49,5 @@ export function Post() {
                 <Comment />
             </div>
         </article>
-    )
+    );
 }
