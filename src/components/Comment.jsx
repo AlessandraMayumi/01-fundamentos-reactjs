@@ -7,7 +7,7 @@ import { Avatar } from './Avatar';
 import styles from './Comment.module.css';
 
 
-export function Comment() {
+export function Comment({ content }) {
     return (
         <div className={styles.comment}>
             <Avatar src='https://www.github.com/AlessandraMayumi.png' />
@@ -22,7 +22,7 @@ export function Comment() {
                             <Trash size={24} />
                         </button>
                     </header>
-                    <p>Muito bom Blob, parabéns!!</p>
+                    <p>{content}</p>
                 </div>
                 <footer>
                     <button>

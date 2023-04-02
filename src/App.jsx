@@ -40,7 +40,7 @@ function App() {
               content={content}
               publishedAt={publishedAt}
             />
-          })};
+          })}
         </main>
       </div>
     </>
