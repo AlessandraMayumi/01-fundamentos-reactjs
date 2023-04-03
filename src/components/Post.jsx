@@ -15,6 +15,7 @@ import { useState } from 'react';
 export function PostItem({ author, content, publishedAt }) {
     // State
     const [comments, setComments] = useState([]);
+    const [newCommentText, setNewCommentText] = useState('');
 
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", { locale: ptBR });
     const publishedDateRelative = formatDistanceToNow(publishedAt, { locale: ptBR, addSuffix: true });
@@ -32,6 +33,9 @@ export function PostItem({ author, content, publishedAt }) {
 
         const { commentMessage } = formJson;
         setComments([...comments, commentMessage])
+
+        // Reset form textarea
+        setNewCommentText('');
     }
 
     return (
@@ -58,7 +62,11 @@ export function PostItem({ author, content, publishedAt }) {
             </div>
             <form onSubmit={handleSubmit} className={styles.commentForm}>
                 <strong>Deixe seu feedback</strong>
-                <textarea name='commentMessage' />
+                <textarea
+                    name='commentMessage'
+                    onChange={e => setNewCommentText(e.target.value)}
+                    value={newCommentText}
+                />
                 <footer>
                     <button type='submit'>Publicar</button>
                 </footer>
