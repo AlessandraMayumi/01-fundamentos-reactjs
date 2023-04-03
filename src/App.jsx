@@ -1,5 +1,5 @@
 // Components
-import { PostItem } from './components/Post'
+import { Post } from './components/Post'
 import { Header } from './components/Header'
 import { Sidebar } from './components/Sidebar'
 
@@ -17,9 +17,9 @@ const posts = [
       role: 'manager'
     },
     content: [
-      {id:1, type: CONTENT_TYPE_PARAGRAPH, content: 'Fala galera' },
-      {id:2, type: CONTENT_TYPE_PARAGRAPH, content: 'Acabei de subir mais um projeto' },
-      {id:3, type: CONTENT_TYPE_LINK, content: 'domain/testuser' },
+      { id: 1, type: CONTENT_TYPE_PARAGRAPH, content: 'Fala galera' },
+      { id: 2, type: CONTENT_TYPE_PARAGRAPH, content: 'Acabei de subir mais um projeto' },
+      { id: 3, type: CONTENT_TYPE_LINK, content: 'domain/testuser' },
     ],
     publishedAt: new Date('2023-03-30 21:00:00'),
   },
@@ -34,8 +34,9 @@ function App() {
         <Sidebar />
         <main>
           {posts.map(p => {
-            const { author, content, publishedAt } = p;
-            return <PostItem
+            const { id, author, content, publishedAt } = p;
+            return <Post
+              key={id}
               author={author}
               content={content}
               publishedAt={publishedAt}

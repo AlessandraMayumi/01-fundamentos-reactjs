@@ -12,9 +12,9 @@ import { CONTENT_TYPE_PARAGRAPH, CONTENT_TYPE_LINK } from '../constants/constant
 import { useState } from 'react';
 
 
-export function PostItem({ author, content, publishedAt }) {
+export function Post({ author, content, publishedAt }) {
     // State
-    const [comments, setComments] = useState([]);
+    const [commentList, setCommentList] = useState([]);
     const [newCommentText, setNewCommentText] = useState('');
 
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", { locale: ptBR });
@@ -32,7 +32,8 @@ export function PostItem({ author, content, publishedAt }) {
         const formJson = Object.fromEntries(formData.entries());
 
         const { commentMessage } = formJson;
-        setComments([...comments, commentMessage])
+        const newComment = { id: Math.random().toString(16).slice(2), content: commentMessage }
+        setCommentList([...commentList, newComment])
 
         // Reset form textarea
         setNewCommentText('');
@@ -51,12 +52,13 @@ export function PostItem({ author, content, publishedAt }) {
                 <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()} >{publishedDateRelative}</time>
             </header>
             <div className={styles.content}>
-                {content.map(p => {
-                    if (p.type === CONTENT_TYPE_PARAGRAPH) {
-                        return <p>{p.content}</p>
+                {content.map(line => {
+                    const { id, type, content } = line;
+                    if (type === CONTENT_TYPE_PARAGRAPH) {
+                        return <p key={id}>{content}</p>
                     }
-                    if (p.type === CONTENT_TYPE_LINK) {
-                        return <p><a href="#">{p.content}</a></p>
+                    if (type === CONTENT_TYPE_LINK) {
+                        return <p key={id}><a href="#">{content}</a></p>
                     }
                 })}
             </div>
@@ -72,8 +74,8 @@ export function PostItem({ author, content, publishedAt }) {
                 </footer>
             </form>
             <div className={styles.commentList}>
-                {comments.map((c) => {
-                    return <Comment content={c} />
+                {commentList.map(({ id, content }) => {
+                    return <Comment key={id} content={content} />
                 })}
             </div>
         </article>
