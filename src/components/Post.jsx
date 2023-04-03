@@ -73,11 +73,15 @@ export function Post({ author, content, publishedAt }) {
                 <strong>Deixe seu feedback</strong>
                 <textarea
                     name='commentMessage'
-                    onChange={e => setNewCommentText(e.target.value)}
+                    onChange={e => { setNewCommentText(e.target.value) }}
                     value={newCommentText}
+                    required
+                    placeholder={'Deixe um comentario'}
                 />
                 <footer>
-                    <button type='submit'>Publicar</button>
+                    <button type='submit' disabled={newCommentText.length === 0}>
+                        Publicar
+                    </button>
                 </footer>
             </form>
             <div className={styles.commentList}>
