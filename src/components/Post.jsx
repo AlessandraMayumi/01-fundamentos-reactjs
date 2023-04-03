@@ -20,6 +20,13 @@ export function Post({ author, content, publishedAt }) {
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", { locale: ptBR });
     const publishedDateRelative = formatDistanceToNow(publishedAt, { locale: ptBR, addSuffix: true });
 
+    function deleteComment(id) {
+        const commentListDeleted = commentList.filter(comment => {
+            return comment.id !== id;
+        });
+        setCommentList(commentListDeleted);
+    }
+
     function handleSubmit(e) {
         // Prevent the browser from reloading the page
         e.preventDefault();
@@ -75,7 +82,14 @@ export function Post({ author, content, publishedAt }) {
             </form>
             <div className={styles.commentList}>
                 {commentList.map(({ id, content }) => {
-                    return <Comment key={id} content={content} />
+                    return (
+                        <Comment
+                            key={id}
+                            id={id}
+                            content={content}
+                            onDeleteComment={deleteComment}
+                        />
+                    )
                 })}
             </div>
         </article>
