@@ -5,9 +5,12 @@ import { Avatar } from './Avatar';
 
 // Styles
 import styles from './Comment.module.css';
+import { useState } from 'react';
 
 
 export function Comment({ id, content, onDeleteComment }) {
+    const [likeCount, setLikeCount] = useState(0);
+
     return (
         <div className={styles.comment}>
             <Avatar src='https://www.github.com/AlessandraMayumi.png' />
@@ -27,9 +30,9 @@ export function Comment({ id, content, onDeleteComment }) {
                     <p>{content}</p>
                 </div>
                 <footer>
-                    <button>
+                    <button onClick={() => setLikeCount(likeCount + 1)}>
                         <ThumbsUp />
-                        Aplaudir <span>20</span>
+                        Aplaudir <span>{likeCount}</span>
                     </button>
                 </footer>
             </div>
