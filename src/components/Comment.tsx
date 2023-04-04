@@ -7,8 +7,13 @@ import { Avatar } from './Avatar';
 import styles from './Comment.module.css';
 import { useState } from 'react';
 
+interface CommentProps {
+    id: string,
+    content: string,
+    onDeleteComment: Function,
+}
 
-export function Comment({ id, content, onDeleteComment }) {
+export function Comment({ id, content, onDeleteComment }: CommentProps) {
     const [likeCount, setLikeCount] = useState(0);
 
     return (

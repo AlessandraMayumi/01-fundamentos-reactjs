@@ -9,37 +9,52 @@ import { Comment } from './Comment';
 import styles from './Post.module.css';
 
 import { CONTENT_TYPE_PARAGRAPH, CONTENT_TYPE_LINK } from '../constants/constants'
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 
-export function Post({ author, content, publishedAt }) {
+interface PostProps {
+    author: {
+        avatarUrl: string,
+        name: string,
+        role: string,
+    },
+    content: Array<{
+        id: number,
+        type: string,
+        content: string,
+    }>,
+    publishedAt: Date,
+}
+
+interface CommentProps {
+    id: string,
+    content: string,
+}
+
+export function Post({ author, content, publishedAt }: PostProps) {
+    const initialCommentList: Array<CommentProps> = [];
     // State
-    const [commentList, setCommentList] = useState([]);
+    const [commentList, setCommentList] = useState(initialCommentList);
     const [newCommentText, setNewCommentText] = useState('');
 
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", { locale: ptBR });
     const publishedDateRelative = formatDistanceToNow(publishedAt, { locale: ptBR, addSuffix: true });
 
-    function deleteComment(id) {
+    function deleteComment(id: string) {
         const commentListDeleted = commentList.filter(comment => {
             return comment.id !== id;
         });
         setCommentList(commentListDeleted);
     }
 
-    function handleSubmit(e) {
+    function handleSubmit(event: FormEvent) {
         // Prevent the browser from reloading the page
-        e.preventDefault();
+        event.preventDefault();
 
-        // Read the form data
-        const form = e.target;
-        const formData = new FormData(form);
-
-        // Or you can work with it as a plain object:
-        const formJson = Object.fromEntries(formData.entries());
-
-        const { commentMessage } = formJson;
-        const newComment = { id: Math.random().toString(16).slice(2), content: commentMessage }
+        const newComment = {
+            id: Math.random().toString(16).slice(2),
+            content: newCommentText
+        };
         setCommentList([...commentList, newComment])
 
         // Reset form textarea
